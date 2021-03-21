@@ -78,7 +78,7 @@
         var vertices = mesh.geometry.attributes.position.array;
         var vertexMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
 
-        for (let i = 0; i < vertices.length - 3; i++) {
+        for (let i = 0; i < vertices.length; i=i+3) {
 
             var vertexSphere = new THREE.SphereGeometry(0.15);
             var vertexMesh = new THREE.Mesh(vertexSphere, vertexMaterial);
