@@ -65,6 +65,8 @@
         var spotLight = new THREE.SpotLight(0xffffff);
         spotLight.position.set(10, 20, 20);
         spotLight.castShadow = true;
+        spotLight.shadowCameraNear = 20;
+        spotLight.shadowCameraFar = 50;
         scene.add(spotLight);
     }
 </script>
