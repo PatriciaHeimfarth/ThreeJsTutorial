@@ -41,12 +41,14 @@
     }
 
     function addCube() {
-
-        var cubeGeometry = new THREE.BoxGeometry(6, 4, 6);
-        var cubeMaterial = new THREE.MeshLambertMaterial({
-            color: "red"
+        const cubeGeometry = new THREE.BoxGeometry(6, 4, 6);
+        const colorsAttr = cubeGeometry.attributes.position.clone();
+     
+        cubeGeometry.setAttribute('color', colorsAttr);
+        const material = new THREE.MeshLambertMaterial({
+            vertexColors: Math.random()*0x0000FF
         });
-        var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+        var cube = new THREE.Mesh(cubeGeometry, material);
         cube.castShadow = true;
         scene.add(cube);
         addVertices(cube);
@@ -78,15 +80,16 @@
         var vertices = mesh.geometry.attributes.position.array;
         var vertexMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
 
-        for (let i = 0; i < vertices.length; i=i+3) {
+        for (let i = 0; i < vertices.length; i = i + 3) {
 
             var vertexSphere = new THREE.SphereGeometry(0.15);
             var vertexMesh = new THREE.Mesh(vertexSphere, vertexMaterial);
-            vertexMesh.position.set(vertices[i],vertices[i+1],vertices[i+2]);
+            vertexMesh.position.set(vertices[i], vertices[i + 1], vertices[i + 2]);
             mesh.add(vertexMesh);
         }
 
     }
+
 </script>
 
 <body>
