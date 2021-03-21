@@ -30,6 +30,7 @@
         addPlane();
         addLights();
         document.body.appendChild(renderer.domElement);
+
         render();
     }
     window.onload = init;
@@ -48,6 +49,7 @@
         var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
         cube.castShadow = true;
         scene.add(cube);
+        addVertices(cube);
     }
 
     function addPlane() {
@@ -67,7 +69,23 @@
         spotLight.castShadow = true;
         spotLight.shadowCameraNear = 20;
         spotLight.shadowCameraFar = 50;
+
         scene.add(spotLight);
+    }
+
+    function addVertices(mesh) {
+        console.log(mesh)
+        var vertices = mesh.geometry.attributes.position.array;
+        var vertexMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+
+        for (let i = 0; i < vertices.length - 3; i++) {
+
+            var vertexSphere = new THREE.SphereGeometry(0.15);
+            var vertexMesh = new THREE.Mesh(vertexSphere, vertexMaterial);
+            vertexMesh.position.set(vertices[i],vertices[i+1],vertices[i+2]);
+            mesh.add(vertexMesh);
+        }
+
     }
 </script>
 
