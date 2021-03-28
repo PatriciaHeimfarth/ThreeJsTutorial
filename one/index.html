@@ -8,6 +8,8 @@
     <title>Document</title>
     <script src="../lib/three.js"></script>
     <script src="../lib/dat.gui.min.js"></script>
+    <script src="../lib/stats.min.js"></script>
+
 </head>
 <script>
     var renderer;
@@ -37,6 +39,7 @@
         addCube();
         addPlane();
         addLights();
+        addStatsObject();
         document.body.appendChild(renderer.domElement);
 
         render();
@@ -46,6 +49,8 @@
     function render() {
         scene.getObjectByName('cube').material.opacity =
             control.opacity;
+
+        stats.update();
         renderer.render(scene, camera);
         requestAnimationFrame(render);
     }
@@ -55,7 +60,7 @@
         const colorsAttr = cubeGeometry.attributes.position.clone();
 
         cubeGeometry.setAttribute('color', colorsAttr);
-        const material = new THREE.MeshLambertMaterial ({
+        const material = new THREE.MeshLambertMaterial({
             vertexColors: Math.random() * 0x0000FF,
             transparent: true
         });
@@ -129,6 +134,15 @@
 
 
         geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    }
+
+    function addStatsObject() {
+        stats = new Stats();
+        stats.setMode(0);
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.left = '0px';
+        stats.domElement.style.top = '0px';
+        document.body.appendChild(stats.domElement);
     }
 
 </script>
