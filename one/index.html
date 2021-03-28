@@ -45,7 +45,7 @@
         const colorsAttr = cubeGeometry.attributes.position.clone();
 
         cubeGeometry.setAttribute('color', colorsAttr);
-        const material = new THREE.MeshLambertMaterial({
+        const material = new THREE.MeshBasicMaterial({
             vertexColors: Math.random() * 0x0000FF
         });
         var cube = new THREE.Mesh(cubeGeometry, material);
@@ -70,8 +70,7 @@
         var spotLight = new THREE.SpotLight(0xffffff);
         spotLight.position.set(10, 20, 20);
         spotLight.castShadow = true;
-        spotLight.shadowCameraNear = 20;
-        spotLight.shadowCameraFar = 50;
+
 
         scene.add(spotLight);
     }
@@ -95,17 +94,23 @@
         var colors = [];
         var color = new THREE.Color();
 
-        var n = 1000, n2 = n / 2; 
-        var x = Math.random() * n - n2;
-        var y = Math.random() * n - n2;
-        var z = Math.random() * n - n2;
-        var vx = (x / n) + 0.5;
-        var vy = (y / n) + 0.5;
-        var vz = (z / n) + 0.5;
+        var n = 1000, n2 = n / 2;
 
-        color.setRGB(vx, vy, vz);
+        for (let i = 0; i < 20; i++) {
+            let color = new THREE.Color();
+            let x = Math.random() * n - n2;
+            let y = Math.random() * n - n2;
+            let z = Math.random() * n - n2;
+            let vx = (x / n) + 0.5;
+            let vy = (y / n) + 0.5;
+            let vz = (z / n) + 0.5;
 
-        colors.push(color.r, color.g, color.b);
+            color.setRGB(vx, vy, vz);
+
+            colors.push(color.r, color.g, color.b);
+        }
+
+
         geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
     }
 
