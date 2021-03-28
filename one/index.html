@@ -43,15 +43,16 @@
     function addCube() {
         const cubeGeometry = new THREE.BoxGeometry(6, 4, 6);
         const colorsAttr = cubeGeometry.attributes.position.clone();
-     
+
         cubeGeometry.setAttribute('color', colorsAttr);
         const material = new THREE.MeshLambertMaterial({
-            vertexColors: Math.random()*0x0000FF
+            vertexColors: Math.random() * 0x0000FF
         });
         var cube = new THREE.Mesh(cubeGeometry, material);
         cube.castShadow = true;
         scene.add(cube);
         addVertices(cube);
+        applyFaceColors(cubeGeometry)
     }
 
     function addPlane() {
@@ -88,6 +89,24 @@
             mesh.add(vertexMesh);
         }
 
+    }
+
+    function applyFaceColors(geometry) {
+        var colors = [];
+        var color = new THREE.Color();
+
+        var n = 1000, n2 = n / 2; 
+        var x = Math.random() * n - n2;
+        var y = Math.random() * n - n2;
+        var z = Math.random() * n - n2;
+        var vx = (x / n) + 0.5;
+        var vy = (y / n) + 0.5;
+        var vz = (z / n) + 0.5;
+
+        color.setRGB(vx, vy, vz);
+
+        colors.push(color.r, color.g, color.b);
+        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
     }
 
 </script>
