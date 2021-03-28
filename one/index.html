@@ -7,11 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="../lib/three.js"></script>
+    <script src="../lib/dat.gui.min.js"></script>
 </head>
 <script>
     var renderer;
     var scene;
-    var camera;
+    var camera, control;
+    var cube;
 
     function init() {
         // Three.js initialization code
@@ -26,6 +28,12 @@
         camera.position.y = 16;
         camera.position.z = 13;
         camera.lookAt(scene.position);
+        control = new function () {
+            this.rotationSpeed = 0.005;
+            this.opacity = 0.6;
+
+        };
+        addControlGui(control);
         addCube();
         addPlane();
         addLights();
@@ -36,6 +44,8 @@
     window.onload = init;
 
     function render() {
+        scene.getObjectByName('cube').material.opacity =
+            control.opacity;
         renderer.render(scene, camera);
         requestAnimationFrame(render);
     }
@@ -45,10 +55,12 @@
         const colorsAttr = cubeGeometry.attributes.position.clone();
 
         cubeGeometry.setAttribute('color', colorsAttr);
-        const material = new THREE.MeshBasicMaterial({
-            vertexColors: Math.random() * 0x0000FF
+        const material = new THREE.MeshLambertMaterial ({
+            vertexColors: Math.random() * 0x0000FF,
+            transparent: true
         });
-        var cube = new THREE.Mesh(cubeGeometry, material);
+        cube = new THREE.Mesh(cubeGeometry, material);
+        cube.name = "cube"
         cube.castShadow = true;
         scene.add(cube);
         addVertices(cube);
@@ -73,6 +85,11 @@
 
 
         scene.add(spotLight);
+    }
+    function addControlGui(controlObject) {
+        var gui = new dat.GUI();
+        gui.add(controlObject, 'rotationSpeed', -0.01, 0.01);
+        gui.add(controlObject, 'opacity', 0.1, 1);
     }
 
     function addVertices(mesh) {
